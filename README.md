@@ -7,7 +7,7 @@
 - Библиотеки
 
   ```
-  pip install numpy sounddevice pynput openai-whisper torch
+  pip install numpy openai-whisper fuzzywuzzy sentence_transformers sounddevice pynput omegaconf python-Levenshtein
   ```
 
 ## Whisper
@@ -29,3 +29,4 @@
 - [Решение с pyttsx3](https://habr.com/ru/articles/529590/)
 - [Сравнение Vosk и Whisper](https://habr.com/ru/articles/814057/)
 - [Решение с Whisper](https://habr.com/ru/articles/919720/)
+- [Про Silero v5](https://habr.com/ru/articles/961930/)

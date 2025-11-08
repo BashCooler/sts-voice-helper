@@ -4,29 +4,42 @@ import whisper
 from numpy import ndarray
 from recorder import Recorder
 from fuzzywuzzy import fuzz
+from paraphraser import Paraphraser
 
 
 class Assistant:
     """
     Основной модуль голосового помощника
+
+    `model_name: str` - имя модели
+
+    `paraphrase: bool` - пробовать привести формулировку пользователя к одному из известных вопросов
+
+    Модели загружаются в (user)/.cache/whisper
+
+    Доступные модели: `tiny` - 39 M, `base` - 74 M, `small` - 244 M, `medium` - 769 M, `large` - 1150 M, `turbo` - 809 M
     """
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str, paraphrase: bool = False):
         self.model = whisper.load_model(model_name)
-        self.QA = {}
         self.tts = speech.TTS()
+        self.paraphrase = paraphrase
+        self.paraphraser = Paraphraser()
+        self.QA = load_json('question.json')
+        # Выполняем при инициализации
+        self.paraphraser.setup_questions(list(self.QA.keys()))
+        self.tts.hello()
+        Recorder(callback=self.process)
 
     def process(self, audio_data: ndarray):
         text = whisper.transcribe(audio=audio_data, model=self.model)['text']
+        # Привести к одному из вопросов в базе
+        if self.paraphrase:
+            text = self.paraphraser.find_best_match(text)
+        # Если такой вопрос есть озвучить ответ
         print(f"> {text}")
         for q, a in self.QA.items():
-            if fuzz.ratio(text, q) >= 70:
+            if fuzz.partial_ratio(text, q) >= 70:
                 self.tts.say(a)
-
-    def main(self):
-        self.QA = load_json('question.json')
-        self.tts.hello()
-        Recorder(callback=self.process)
-        return
 
 
 def load_json(filename: str):
@@ -38,5 +51,4 @@ def load_json(filename: str):
 
 
 if __name__ == "__main__":
-    assistant = Assistant(model_name='tiny')
-    assistant.main()
+    assistant = Assistant(model_name='tiny', paraphrase=True)
