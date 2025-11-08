@@ -31,21 +31,21 @@ class TTS:
             repo_or_dir="snakers4/silero-models",
             model="silero_tts",
             language="ru",
-            speaker="ru_v3"
+            speaker="v5_ru"
         )
         self.__MODEL__.to(torch.device(device))
 
         self.__SPEAKER__ = speaker
         self.__SAMPLERATE__ = samplerate
 
-    def text2speech(self, text: str):
+    def say(self, text: str):
         # генерируем аудио из текста
         audio = self.__MODEL__.apply_tts(
             text=text,
             speaker=self.__SPEAKER__,
             sample_rate=self.__SAMPLERATE__,
             put_accent=True,
-            put_yo=True
+            put_yo=False
         )
 
         # проигрываем что получилось
@@ -53,8 +53,5 @@ class TTS:
         time.sleep((len(audio) / self.__SAMPLERATE__))
         sd.stop()
 
-
-if __name__ == "__main__":
-    print(SPEAKER.XENIA)
-    tts = TTS()
-    tts.text2speech(text="Привет, меня зовут Саша и я диктор канала мастерская настроения")
+    def hello(self):
+        self.say(text="Буду рада ответить на ваши вопросы")
