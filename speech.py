@@ -41,7 +41,7 @@ class TTS:
     def say(self, text: str):
         # генерируем аудио из текста
         audio = self.__MODEL__.apply_tts(
-            text=text,
+            text=str(text),
             speaker=self.__SPEAKER__,
             sample_rate=self.__SAMPLERATE__,
             put_accent=True,

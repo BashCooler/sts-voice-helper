@@ -48,5 +48,8 @@ class Recorder:
         self.stream.stop()
         self.stream.close()
         print(f"⏹️ Запись остановлена")
-        audio_data = concatenate(self.data, axis=0)
+        try:
+            audio_data = concatenate(self.data, axis=0)
+        except ValueError:
+            return
         self.callback(audio_data.flatten().astype(float32))
