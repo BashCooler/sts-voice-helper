@@ -3,8 +3,20 @@ import numpy as np
 
 
 class Paraphraser:
-    def __init__(self):
-        self.model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-mpnet-base-v2')
+    """
+    `model_path` - путь к локально установленной модели
+    `sentence-transformers/paraphrase-multilingual-mpnet-base-v2`
+
+    При отсутствии локальной копии модели она будет загружена из
+    репозитория
+    """
+    def __init__(self, model_path: str = None):
+        self.path = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+        self.model_path = model_path
+        try:
+            self.model = SentenceTransformer(self.model_path)
+        except FileNotFoundError:
+            self.model = SentenceTransformer(self.path)
         self.available_questions = []
         self.question_embeddings = None
 
