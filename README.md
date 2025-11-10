@@ -2,16 +2,32 @@
 
 Голосовой помошник, консультирующий по направлению СТС
 
-## Зависимости
-- Python 3.13.7
-- Библиотеки
+## Quick start
 
+Для работы ассистента потребуется установить
+
+1. Python 3.13.7
+2. Библиотеки
   ```
-  pip install numpy openai-whisper fuzzywuzzy sentence_transformers sounddevice pynput omegaconf python-Levenshtein
+  pip install numpy openai-whisper fuzzywuzzy sentence_transformers sounddevice pynput omegaconf python-Levenshtein tf-keras
   ```
+3. Запустить `main.py` 
+    
+    Примечание: если скрипт зависает на этапе загрузки `silero`, используйте программу на 3 буквы (только для первого запуска)
+
+4. Готово!
+
+Для работы в офлайн режиме:
+
+4. Скачать модель с [HuggingFace](https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2/tree/main) и поместить в папку `models`. Для работы не требуются файлы/папки `onnx`, `openvino`, `pytorch_model.bin`, `tf_model.h5`. Их удаление снизит вес модели с ~20 Гб до ~1 Гб.
+5. Единожды запустить `main.py` с подключением к интернету для загрузки прочих моделей
+6. Готово!
+
+## Удаление
+
+Кэш моделей устанавливаестя в `%USERPROFILE%/.cache/...`. Не забудьте почистить.
 
 ## Whisper
-Модели загружаются в `(user)/.cache/whisper`.
 
 Доступные модели:
 1. tiny - 39 M,
@@ -30,3 +46,4 @@
 - [Сравнение Vosk и Whisper](https://habr.com/ru/articles/814057/)
 - [Решение с Whisper](https://habr.com/ru/articles/919720/)
 - [Про Silero v5](https://habr.com/ru/articles/961930/)
+- [Анализ моделей синтеза речи](https://habr.com/ru/companies/ntechlab/articles/854724/)

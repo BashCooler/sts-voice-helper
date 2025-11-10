@@ -24,14 +24,15 @@ class TTS:
     def __init__(
             self, speaker: str = SPEAKER.XENIA,
             device: str = DEVICE.CPU,
-            samplerate: int = 48_000
+            samplerate: int = 48000
     ):
         # подгружаем модель
         self.__MODEL__, _ = torch.hub.load(
             repo_or_dir="snakers4/silero-models",
             model="silero_tts",
             language="ru",
-            speaker="v5_ru"
+            speaker="v5_ru",
+            trust_repo=True
         )
         self.__MODEL__.to(torch.device(device))
 
@@ -55,3 +56,7 @@ class TTS:
 
     def hello(self):
         self.say(text="Буду рада ответить на ваши вопросы")
+
+    def default(self):
+        self.say(text="К сожалению я не знаю ответа, вы можете найти больше информации на сайте ка́федры "
+                      "ю, ю, эс, ти́, точка, ру, слэш, информатик https://uust.ru/informatic/")

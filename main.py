@@ -22,7 +22,7 @@ class Assistant:
     def __init__(self, model_name: str):
         self.model = whisper.load_model(model_name)
         self.tts = speech.TTS()
-        self.paraphraser = Paraphraser()
+        self.paraphraser = Paraphraser(model_path=r'./models/paraphrase-multilingual-mpnet-base-v2')
         self.QA = load_json('question.json')
         self.questions = list(self.QA.keys())
         # Выполняем при инициализации
@@ -47,6 +47,8 @@ class Assistant:
                 self.tts.say(a)
                 print(f"Ответ               : {a}\n")
                 return
+        self.tts.default()
+        return
 
 
 def load_json(filename: str):
